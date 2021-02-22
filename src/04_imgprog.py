@@ -7,15 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
-from __init__ import assetsdir
-
-def rgb2gray(img):
-    r = img1[:, :, 0]
-    g = img1[:, :, 1]
-    b = img1[:, :, 2]
-    return (
-        0.2989 * r + 0.5879 * g + 0.114 * b
-    )
+from __init__ import assetsdir, rgb2gray
 
 img1 = mpimg.imread(join(assetsdir, "2.2.05.tiff"))
 print(img1.shape)
