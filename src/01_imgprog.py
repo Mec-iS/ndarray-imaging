@@ -1,16 +1,14 @@
 """
 Subplots with image trasformations
 """
-import matplotlib
-matplotlib.use('Qt5Agg')
-
-from os.path import dirname, realpath, join
+from os.path import join
 import numpy as np
 import matplotlib.pyplot as plt
 
+from __init__ import assetsdir
 
-img1 = plt.imread(join(dirname(dirname(realpath(__file__))), "data", "aerials", "2.1.01.tiff"))
-img2 = plt.imread(join(dirname(dirname(realpath(__file__))), "data", "aerials", "2.1.03.tiff"))
+img1 = plt.imread(join(assetsdir, "2.1.01.tiff"))
+img2 = plt.imread(join(assetsdir, "2.1.03.tiff"))
 
 plt.subplot(2, 2, 1)
 plt.imshow(img1)

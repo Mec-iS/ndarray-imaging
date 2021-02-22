@@ -1,16 +1,15 @@
 """
 Subplots with image histograms
 """
-import matplotlib
-matplotlib.use('Qt5Agg')
-
-from os.path import dirname, realpath, join
+from os.path import join
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
-img1 = mpimg.imread(join(dirname(dirname(realpath(__file__))), "data", "aerials", "2.2.05.tiff"))
+from __init__ import assetsdir
+
+img1 = mpimg.imread(join(assetsdir, "2.2.05.tiff"))
 r = img1[:, :, 0]
 g = img1[:, :, 1]
 b = img1[:, :, 2]

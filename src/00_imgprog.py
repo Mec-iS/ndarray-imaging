@@ -1,14 +1,13 @@
 """
 Create subplots
 """
-import matplotlib
-matplotlib.use('Qt5Agg')
-
-from os.path import dirname, realpath, join
+from os.path import join
 import numpy as np
 import matplotlib.pyplot as plt
 
-fpath = join(dirname(dirname(realpath(__file__))), "data", "aerials", "2.1.01.tiff")
+from __init__ import assetsdir
+
+fpath = join(assetsdir, "2.1.01.tiff")
 
 img1 = plt.imread(fpath)
 print(type(img1))

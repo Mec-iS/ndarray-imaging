@@ -1,17 +1,16 @@
 """
 Subplots with bitwise operations between images
 """
-import matplotlib
-matplotlib.use('Qt5Agg')
-
-from os.path import dirname, realpath, join
+from os.path import join
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
-img1 = mpimg.imread(join(dirname(dirname(realpath(__file__))), "data", "aerials", "2.1.01.tiff"))
-img2 = mpimg.imread(join(dirname(dirname(realpath(__file__))), "data", "aerials", "2.1.03.tiff"))
+from __init__ import assetsdir
+
+img1 = mpimg.imread(join(assetsdir, "2.1.01.tiff"))
+img2 = mpimg.imread(join(assetsdir, "2.1.03.tiff"))
 
 _, axs = plt.subplots(3, 2, constrained_layout=True)
 plt.axis("off")

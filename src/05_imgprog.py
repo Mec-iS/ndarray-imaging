@@ -2,14 +2,13 @@
 IMAGE SEGMENTATION: image thresholding
 the converting of an image into two parts: background and foreground
 """
-import matplotlib
-matplotlib.use('Qt5Agg')
-
-from os.path import dirname, realpath, join
+from os.path import join
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+
+from __init__ import assetsdir
 
 def threshold(img, thresh=127):
     return ((img > thresh) * 255).astype("uint8")
@@ -17,7 +16,7 @@ def threshold(img, thresh=127):
 def inverted_threshold(img, thresh=127):
     return ((img < thresh) * 255).astype("uint8")
 
-img1 = mpimg.imread(join(dirname(dirname(realpath(__file__))), "data", "aerials", "2.1.01.tiff"))
+img1 = mpimg.imread(join(assetsdir, "2.1.01.tiff"))
 
 _, axs = plt.subplots(2, 2, constrained_layout=True)
 

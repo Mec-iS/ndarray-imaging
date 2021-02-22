@@ -1,14 +1,13 @@
 """
 From multi-channel to grayscale
 """
-import matplotlib
-matplotlib.use('Qt5Agg')
-
-from os.path import dirname, realpath, join
+from os.path import join
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+
+from __init__ import assetsdir
 
 def rgb2gray(img):
     r = img1[:, :, 0]
@@ -18,7 +17,7 @@ def rgb2gray(img):
         0.2989 * r + 0.5879 * g + 0.114 * b
     )
 
-img1 = mpimg.imread(join(dirname(dirname(realpath(__file__))), "data", "aerials", "2.2.05.tiff"))
+img1 = mpimg.imread(join(assetsdir, "2.2.05.tiff"))
 print(img1.shape)
 print(rgb2gray(img1).shape)
 
