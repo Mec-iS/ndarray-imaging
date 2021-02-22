@@ -11,12 +11,18 @@ import matplotlib.image as mpimg
 from __init__ import assetsdir,rgb2gray
 
 def normalize(img):
+    # check image is grayscale
+    print(img.shape, type(img))
+    if len(img.shape) == 3:
+        raise ValueError("image is not monochannel grayscale")
+
     lmin = float(img.min())
     lmax = float(img.max())
     return np.floor((img-lmin) / (lmax-lmin) * 255.0)
 
 
 img1 = mpimg.imread(join(assetsdir, "2.2.05.tiff"))
+print(img1.shape, type(img1))
 
 _, axs = plt.subplots(1, 2, constrained_layout=True)
 
