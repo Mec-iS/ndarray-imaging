@@ -9,7 +9,7 @@ import matplotlib.image as mpimg
 
 from __init__ import assetsdir, rgb2gray
 
-img1 = mpimg.imread(join(assetsdir, "2.2.05.tiff"))
+img1 = mpimg.imread(join(assetsdir, "Mars_Perseverance_descent_1.png"))
 print(img1.shape)
 print(rgb2gray(img1).shape)
 
