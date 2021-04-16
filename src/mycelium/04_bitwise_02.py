@@ -7,14 +7,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
-from __init__ import assetsdir_1, rgb2gray, threshold, inverted_threshold
+from __init__ import assetsdir_2, rgb2gray, threshold, inverted_threshold
 from skimage import exposure
 from skimage.filters import threshold_otsu, threshold_local, threshold_mean
 
 from os import walk
 
 files = []
-for _, _, filenames in walk(assetsdir_1):
+for _, _, filenames in walk(assetsdir_2):
     files.extend(filenames)
     break
 
@@ -29,7 +29,7 @@ print(axs)
 i = 0
 for x in axs:
     try:
-        img1 = rgb2gray(mpimg.imread(join(assetsdir_1, files[i])))
+        img1 = rgb2gray(mpimg.imread(join(assetsdir_2, files[i])))
         img_otsu = img1 > threshold_otsu(img1)
 
         # "otsu XOR thresh mean"

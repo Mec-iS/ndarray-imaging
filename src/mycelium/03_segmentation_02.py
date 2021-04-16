@@ -9,10 +9,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
-from __init__ import assetsdir_1, rgb2gray, threshold, inverted_threshold
+from __init__ import assetsdir_2, rgb2gray, threshold, inverted_threshold
 
 
-img1 = mpimg.imread(join(assetsdir_1, "my_photo-7.jpg"))
+img1 = mpimg.imread(join(assetsdir_2, "my_photo-3.jpg"))
 grayscale_img1 = rgb2gray(img1)
 print(np.median(img1), np.median(grayscale_img1))
 print(np.average(img1), np.average(grayscale_img1))

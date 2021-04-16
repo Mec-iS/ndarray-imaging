@@ -3,7 +3,8 @@ matplotlib.use('Qt5Agg')
 
 from os.path import dirname, realpath, join
 
-assetsdir = join(dirname(dirname(dirname(realpath(__file__)))), "data", "mycelium")
+assetsdir_1 = join(dirname(dirname(dirname(realpath(__file__)))), "data", "mycelium", "01")
+assetsdir_2 = join(dirname(dirname(dirname(realpath(__file__)))), "data", "mycelium", "02")
 
 def rgb2gray(img):
     r = img[:, :, 0]
