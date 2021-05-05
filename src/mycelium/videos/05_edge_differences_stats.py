@@ -30,7 +30,7 @@ fps = cap.get(cv2.CAP_PROP_FPS)
 frameCount = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 size = (660, 330)
 
-csv_path = join(dirname(__file__), "its-alive-zoom-stats2.csv")
+csv_path = join(dirname(__file__), "its-alive-zoom-stats.csv")
 index = 0
 diff = None
 
@@ -55,9 +55,9 @@ while(cap.isOpened()):
         # extrapolate one channel from a LAB color style and trim to target area in the frame
         lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)[400:730,400:730,0]
         # 2nd image
-        # apply mean threshold to
-        edited = cv2.medianBlur(lab, 3)
-        edited = cv2.adaptiveThreshold(edited, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY,11,2)
+        # apply mean threshold to 
+        edited = cv2.adaptiveThreshold(lab, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY,11,2)
+        edited = cv2.medianBlur(edited, 3)
 
         spotted = np.full(edited.shape, 255, np.uint8)
         if diff is not None:
