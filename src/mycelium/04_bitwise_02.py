@@ -1,5 +1,5 @@
 """
-Subplots with bitwise operations between images
+Subplots with OTSU and bitwise operations between images
 """
 from os.path import join
 

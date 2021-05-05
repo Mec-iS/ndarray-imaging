@@ -5,6 +5,7 @@ from os.path import dirname, realpath, join
 
 assetsdir_1 = join(dirname(dirname(dirname(realpath(__file__)))), "data", "mycelium", "01")
 assetsdir_2 = join(dirname(dirname(dirname(realpath(__file__)))), "data", "mycelium", "02")
+assetsdir_3 = join(dirname(dirname(dirname(realpath(__file__)))), "data", "mycelium", "03")
 
 def rgb2gray(img):
     r = img[:, :, 0]
