@@ -3,3 +3,15 @@ numpy
 matplotlib
 pyqt5
 scikit-image
+colour
+pandas
+
+# takes long to install, need CUDA system installation
+cupy
+
+#
+# before pip install this,
+# install system libraries:
+# https://gist.github.com/raulqf/f42c718a658cddc16f9df07ecc627be7
+#
+opencv-python
