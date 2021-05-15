@@ -5,32 +5,32 @@ CUDA and OpenCV
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Compute binary threshold differences frame by frame.
 
-Stats generator and CSV storage
+Video and stats generator
 
 For optimizations see https://jamesbowley.co.uk/accelerating-opencv-with-cuda-streams-in-python/
 For use of `cv2.cuda_GpuMat` see https://www.simonwenkel.com/2020/12/30/opencv-python-api-and-custom-cuda-kernels.html
 """
 import sys
-import csv
 from os.path import join, dirname
 from math import sqrt
 from copy import copy
+import csv
 
 import numpy as np
 import cv2
-from skimage.filters import threshold_otsu, threshold_local, threshold_mean
 
 from __init__ import assetsdir_1
 
+csv_path = join(dirname(__file__), "its-alive-zoom-stats3.csv")
 
-cap = cv2.VideoCapture(join(assetsdir_1, "raw_trimmed_MOTION.mp4"))
+cap = cv2.VideoCapture(join(assetsdir_1, "glass_1__sample_1_left.mkv"))
 fourcc = cv2.VideoWriter_fourcc(*'fmp4')
 
 fps = cap.get(cv2.CAP_PROP_FPS)
 frameCount = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-size = (660, 330)
+size = (490 * 3, 1000)
+out = cv2.VideoWriter(join(assetsdir_1, 'output.mp4'),fourcc, fps, size, 0)
 
-csv_path = join(dirname(__file__), "its-alive-zoom-stats.csv")
 index = 0
 diff = None
 
@@ -49,15 +49,22 @@ min_diff = (None, None)  # (value, frame number)
 while(cap.isOpened()):
     ret, frame = cap.read()
     frame = np.asarray(frame)
+
     if ret is True:
         index += 1
-        # 1st image
-        # extrapolate one channel from a LAB color style and trim to target area in the frame
-        lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)[400:730,400:730,0]
-        # 2nd image
-        # apply mean threshold to 
-        edited = cv2.adaptiveThreshold(lab, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY,11,2)
-        edited = cv2.medianBlur(edited, 3)
+
+        # crop image in the area of interest
+        image = cv2.cvtColor(frame,cv2.COLOR_RGB2GRAY)[650:1650, 1580:2070]
+        # create a kernel
+        se = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (6,8))
+        # try sort out background noise by morph transform
+        bg = cv2.morphologyEx(image, cv2.MORPH_OPEN, se)
+        # threshold
+        edited = cv2.threshold(bg, 2, 250, cv2.THRESH_OTSU)[1]
+
+        #gradient = cv2.morphologyEx(image, cv2.MORPH_GRADIENT, se)
+
+        #out_gray = cv2.divide(gradient, bg, scale=255)
 
         spotted = np.full(edited.shape, 255, np.uint8)
         if diff is not None:
@@ -75,11 +82,12 @@ while(cap.isOpened()):
 
             t_0_sq = copy(t_1_sq)
 
-            if index > 50:
-                # mid-range of diff
+            if index > 500:
+                # mid-range of diff and max variance
                 max_diff = (t_1_diff_perc, index) if max_diff[0] is None or t_1_diff_perc > max_diff[0] else max_diff
                 min_diff = (t_1_diff_perc, index) if min_diff[0] is None or t_1_diff_perc < min_diff[0] else min_diff
                 mid_range =  (max_diff[0] + min_diff[0]) / 2
+            
 
             with open(csv_path, 'a') as myfile:
                 wr = csv.writer(myfile, quoting=csv.QUOTE_ALL, delimiter=',')
@@ -89,9 +97,6 @@ while(cap.isOpened()):
                     t_1_delta_variance, max_diff, mid_range]
                 )
         else:
-            diff = edited
-            t_1_diff = 0
-            t_1_diff_perc = 0.0
             mean_perc = 0.0
             mid_range = 0.0
             t_1_delta_variance = sys.maxsize
@@ -103,9 +108,26 @@ while(cap.isOpened()):
                     "mean diff", "variance from t-1", "(max variance from t-1, frame)",
                     "mid min-max range"]
                 )
+        
+        diff = edited
+
+        horizontal = np.hstack((image, spotted, bg))
+        horizontal_concat = np.concatenate((image, spotted, bg), axis=1)
+
+        out.write(horizontal_concat)
+
+        cv2.imshow('frame', horizontal_concat)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+        # from time import sleep
+        # sleep(0.07)
+
     else:
         break
 
 # Release everything if job is finished
 cap.release()
+out.release()
 cv2.destroyAllWindows()
